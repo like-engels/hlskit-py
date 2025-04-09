@@ -4,7 +4,7 @@ from hlskit_py import HlsVideoProcessingSettings, HlsVideoProcessor
 
 
 async def process_videos():
-    input_dir = "sample.mp4"
+    input_dir = "example/sample.mp4"
 
     with open(input_dir, "rb") as video_binary:
         input_bytes = video_binary.read()
