@@ -26,8 +26,6 @@ class HlsVideoProcessor:
         temp_dir = tempfile.TemporaryDirectory()
         output_dir = temp_dir.name
 
-        print(output_dir)
-
         tasks = [
             cls.process_video_profile(
                 input_bytes,
