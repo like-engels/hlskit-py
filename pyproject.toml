@@ -1,14 +1,18 @@
 [project]
 name = "hlskit-py"
-version = "0.1.1"
+version = "0.1.2"
 description = "HlsKit provides strong HLS video conversion features backed by ffmpeg. Prepare your mp4 files for streaming"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [{ name = "Engels Ruehl", email = "higashikataengels@icloud.com" }]
 requires-python = ">=3.12"
-dependencies = ["pydantic>=2.10.5", "ruff>=0.9.1"]
+dependencies = [
+    "pydantic>=2.10.5",
+ "pytest>=8.3.5",
+ "ruff>=0.9.1",
+]
 classifiers = [
-    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
     "Topic :: Multimedia",
     "Topic :: Multimedia :: Video",
     "Topic :: Multimedia :: Video :: Conversion",

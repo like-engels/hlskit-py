@@ -1,5 +1,11 @@
 # Contribution Guide for HlsKit-Py
 
+Love HlsKit? Join our community! Whether you’re submitting changes directly, forking the project, or building extensions, you’re a contributor to the HlsKit ecosystem. We’d love for you to share your work with us—let’s build something great together!
+
+> HlsKit is licensed under LGPLv3. By modifying or distributing it (e.g., via forks, wrappers, libraries or extensions), you agree to the [HlsKit Contributor License Agreement (CLA)](CLA.md), which ensures our ecosystem thrives.
+> Everyone who modifies HlsKit is part of our community! We encourage you to license your changes under LGPLv3 and make them available to others, fostering collaboration across
+> To prevent abuse, we encourage developers using modified versions in networked applications to make their source code available, in the spirit of the AGPL
+
 ## Introduction
 
 HlsKit-Py is a Python library that provides tools for converting video files into adaptive bitrate HLS streams using `ffmpeg`. It mirrors the capabilities of the Rust version (HlsKit) and is designed with scalability, performance, and clarity in mind. Community contributions are welcome and encouraged to improve functionality, add features, and maintain code quality.

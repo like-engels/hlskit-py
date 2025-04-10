@@ -25,6 +25,6 @@ class M3u8Tools:
                 )
                 master_playlist.write(f"{playlist_path}\n")
                 print(f"[HslKit] Master playlist created for {width}x{height}")
-        
+
         with open(master_playlist_path, "rb") as master_file:
             return master_file.read()
