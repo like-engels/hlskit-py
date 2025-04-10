@@ -6,11 +6,7 @@ readme = "README.md"
 license = { file = "LICENSE" }
 authors = [{ name = "Engels Ruehl", email = "higashikataengels@icloud.com" }]
 requires-python = ">=3.12"
-dependencies = [
-    "pydantic>=2.10.5",
- "pytest>=8.3.5",
- "ruff>=0.9.1",
-]
+dependencies = ["pydantic>=2.10.5", "ruff>=0.9.1"]
 classifiers = [
     "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
     "Topic :: Multimedia",
@@ -38,3 +34,11 @@ Homepage = "https://github.com/like-engels/hlskit-py"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+
+[dependency-groups]
+dev = ["pytest>=8.3.5"]
