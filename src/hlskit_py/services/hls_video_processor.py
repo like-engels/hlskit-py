@@ -41,10 +41,13 @@ class HlsVideoProcessor:
         resolution_results = await asyncio.gather(*tasks)
 
         playlist_filenames = [
-            f"{output_dir}/{resolution.playlist_name}" for _, resolution in enumerate(resolution_results)
+            f"{output_dir}/{resolution.playlist_name}"
+            for _, resolution in enumerate(resolution_results)
         ]
 
-        overall_resolutions = [result.resolution for _, result in enumerate(resolution_results)]
+        overall_resolutions = [
+            result.resolution for _, result in enumerate(resolution_results)
+        ]
 
         master_playlist_bytes = await M3u8Tools.generate_master_playlist(
             output_dir=output_dir,
@@ -52,7 +55,9 @@ class HlsVideoProcessor:
             playlist_filenames=playlist_filenames,
         )
 
-        hls_video = HlsVideo(master_m3u8_data=master_playlist_bytes, resolutions=resolution_results)
+        hls_video = HlsVideo(
+            master_m3u8_data=master_playlist_bytes, resolutions=resolution_results
+        )
 
         temp_dir.cleanup()
 
@@ -103,7 +108,9 @@ class HlsVideoProcessor:
             _, stderr = await process.communicate()
 
             if process.returncode != 0:
-                raise RuntimeError(f"[HlsKit] FFmpeg error for resolution {width}x{height}: {stderr.decode()}")
+                raise RuntimeError(
+                    f"[HlsKit] FFmpeg error for resolution {width}x{height}: {stderr.decode()}"
+                )
         finally:
             # Clean up temporary input file
             temp_input_file.close()
@@ -126,8 +133,9 @@ class HlsVideoProcessor:
             if not os.path.exists(segment_path):
                 break
             with open(segment_path, "rb") as segment_file:
-                segment_name = f"data_{stream_index}_%03d.ts".replace("%03d", f"{segment_index:03d}")
-
+                segment_name = f"data_{stream_index}_%03d.ts".replace(
+                    "%03d", f"{segment_index:03d}"
+                )
                 hls_resolution.segments.append(
                     HlsVideoSegment(
                         segment_name=segment_name,
