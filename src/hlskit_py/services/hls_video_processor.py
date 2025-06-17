@@ -82,28 +82,40 @@ class HlsVideoProcessor:
         segment_filename = f"{output_dir}/data_{stream_index}_%03d.ts"
         playlist_filename = f"{output_dir}/playlist_{stream_index}.m3u8"
 
-        command = FfmpegCommandBuilder.build_simple_hls(
-            width=width,
-            height=height,
-            crf=crf,
-            preset=preset,
-            segment_filename=segment_filename,
-            playlist_filename=playlist_filename,
-        )
+        # Create temporary file for input video bytes
+        temp_input_file = tempfile.NamedTemporaryFile(delete=False, suffix=".tmp")
+        try:
+            # Write input bytes to temporary file
+            temp_input_file.write(input_bytes)
+            temp_input_file.flush()
 
-        process = await asyncio.create_subprocess_exec(
-            *command,
-            stdin=asyncio.subprocess.PIPE,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-        )
-
-        _, stderr = await process.communicate(input=input_bytes)
-
-        if process.returncode != 0:
-            raise RuntimeError(
-                f"[HlsKit] FFmpeg error for resolution {width}x{height}: {stderr.decode()}"
+            command = FfmpegCommandBuilder.build_simple_hls(
+                input_file_path=temp_input_file.name,
+                width=width,
+                height=height,
+                crf=crf,
+                preset=preset,
+                segment_filename=segment_filename,
+                playlist_filename=playlist_filename,
             )
+
+            process = await asyncio.create_subprocess_exec(
+                *command,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+
+            _, stderr = await process.communicate()
+
+            if process.returncode != 0:
+                raise RuntimeError(
+                    f"[HlsKit] FFmpeg error for resolution {width}x{height}: {stderr.decode()}"
+                )
+        finally:
+            # Clean up temporary input file
+            temp_input_file.close()
+            if os.path.exists(temp_input_file.name):
+                os.unlink(temp_input_file.name)
 
         hls_resolution = HlsVideoResolution(
             resolution=resolution,
@@ -121,9 +133,12 @@ class HlsVideoProcessor:
             if not os.path.exists(segment_path):
                 break
             with open(segment_path, "rb") as segment_file:
+                segment_name = f"data_{stream_index}_%03d.ts".replace(
+                    "%03d", f"{segment_index:03d}"
+                )
                 hls_resolution.segments.append(
                     HlsVideoSegment(
-                        segment_name=f"segment_{segment_index}",
+                        segment_name=segment_name,
                         segment_data=segment_file.read(),
                     )
                 )

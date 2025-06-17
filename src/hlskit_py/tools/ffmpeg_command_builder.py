@@ -2,6 +2,7 @@ class FfmpegCommandBuilder:
     @classmethod
     def build_simple_hls(
         cls,
+        input_file_path: str,
         width: int,
         height: int,
         crf: int,
@@ -13,7 +14,7 @@ class FfmpegCommandBuilder:
         command = [
             "ffmpeg",
             "-i",
-            "pipe:0",
+            input_file_path,
             "-vf",
             f"scale={width}:{height}",
             "-c:v",

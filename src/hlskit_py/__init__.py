@@ -1,6 +1,6 @@
 from .models import (
-    HlsVideoProcessingSettings,
     HlsVideo,
+    HlsVideoProcessingSettings,
     HlsVideoResolution,
     HlsVideoSegment,
 )
